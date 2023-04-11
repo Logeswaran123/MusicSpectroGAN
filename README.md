@@ -7,7 +7,7 @@ Generative Adversial Network to generate music via spectrogram data.
 
 ## Code Requirements :mage_woman:
 
-## Dataset
+## Dataset 💾
 
 ## How to run :running_man:
 
