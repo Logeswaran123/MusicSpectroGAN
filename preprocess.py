@@ -37,10 +37,10 @@ def create_mel_spectogram(input_dir_path: str, output_dir_path: str = None):
         print(f"Processing {label} dataset in path: {label_dir_path}...\n")
 
         for file_name in os.listdir(label_dir_path):
-            out_label_spectro_path = output_path + "/" + label
-            if not os.path.exists(out_label_spectro_path):
-                print(f"Creating {label} processed dataset directory: {out_label_spectro_path}\n")
-                os.makedirs(out_label_spectro_path) 
+            out_label_sgram_path = output_path + "/" + label
+            if not os.path.exists(out_label_sgram_path):
+                print(f"Creating {label} processed dataset directory: {out_label_sgram_path}\n")
+                os.makedirs(out_label_sgram_path) 
 
             file_path = label_dir_path + "/" + file_name
             try:
@@ -56,7 +56,7 @@ def create_mel_spectogram(input_dir_path: str, output_dir_path: str = None):
             plt.axis('off')
             plt.axes([0., 0., 1., 1.], frameon=False, xticks=[], yticks=[])
             librosa.display.specshow(mel_sgram, cmap='gray_r')
-            save_file_name = out_label_spectro_path + "/" + os.path.splitext(file_name)[0] + ".png"
+            save_file_name = out_label_sgram_path + "/" + os.path.splitext(file_name)[0] + ".png"
             plt.savefig(save_file_name, bbox_inches='tight', pad_inches=0)
             plt.close()
 
