@@ -1,5 +1,5 @@
 # [In Progress] MusicSpectroGAN
-Generative Adversial Network to generate music via spectrogram data.
+Generative Adversarial Network to generate music via spectrogram data.
 
 ## Description :scroll:
 
