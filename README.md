@@ -1,4 +1,4 @@
-# [In Progress] MusicSpectroGAN
+# [In-Progress] MusicSpectroGAN
 Generative Adversarial Network to generate music via spectrogram image of music.
 
 ## Description :scroll:
