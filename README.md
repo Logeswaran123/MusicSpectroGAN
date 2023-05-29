@@ -10,6 +10,10 @@ Generative Adversarial Network to generate music via spectrogram image of music.
 ## Dataset 💾
 
 ## How to run :running_man:
+For DCGAN, execute the following command,
+```python
+python dcgan.py
+```
 
 ### Preprocess dataset
 ```python
