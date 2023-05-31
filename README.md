@@ -14,6 +14,10 @@ For DCGAN, execute the following command,
 ```python
 python dcgan.py
 ```
+For CGAN, execute the following command,
+```python
+python cgan.py
+```
 
 ### Preprocess dataset
 ```python
