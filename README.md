@@ -4,6 +4,7 @@ Generative Adversarial Network to generate music via spectrogram image of music.
 ## Description :scroll:
 
 ## General Requirements :mage_man:
+* If using GPU for training, atleast 4GB of VRAM is required.
 
 ## Code Requirements :mage_woman:
 
