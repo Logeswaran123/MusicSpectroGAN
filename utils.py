@@ -1,5 +1,33 @@
-import numpy as np
+import os
+from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
+import numpy as np
+from torch.utils.data import DataLoader
+import torchvision.transforms as transforms
+from torchvision.datasets import ImageFolder
+
+
+def pt_load_dataset(dataset_path, image_size, batch_size):
+    transform = transforms.Compose([
+        transforms.Resize(image_size),
+        transforms.Grayscale(),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5,), (0.5,))
+    ])
+    dataset = ImageFolder(root=dataset_path, transform=transform)
+    return DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+
+def tf_load_dataset(dataset_path, batch_size, image_shape, class_mode, shuffle, color_mode):
+    dataset_generator = ImageDataGenerator()
+    dataset_generator = dataset_generator.flow_from_directory(
+                            dataset_path,
+                            target_size=image_shape,
+                            batch_size=batch_size,
+                            class_mode=class_mode,
+                            shuffle=shuffle,
+                            color_mode=color_mode)
+    return dataset_generator
 
 
 def latent_vector(latent_dim, n, n_cats=10):
@@ -20,6 +48,10 @@ def real_samples(dataset, categories, n):
 
     # Select real data samples (images and category labels) using the list of random indeces from above
     X, cat_labels = dataset[indx], categories[indx]
+
+    cat_labels = np.array(cat_labels)
+    if cat_labels.ndim > 1: # for one-hot encoded case
+        cat_labels = np.argmax(cat_labels, axis=1)
 
     # Class labels
     y = np.ones((n, 1))

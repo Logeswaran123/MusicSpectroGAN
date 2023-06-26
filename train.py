@@ -12,7 +12,6 @@ def train(device, nz, lr, beta1, netD, netG, dataloader, num_epochs):
     device = torch.device(device)
 
     path = os.getcwd() + "\generated_images"
-    print(path)
     if not os.path.exists(path):
         os.makedirs(path)
 

@@ -1,12 +1,9 @@
-import os
 import torch
-from torch.utils.data import DataLoader
-import torchvision.transforms as transforms
-from torchvision.datasets import ImageFolder
 
 from dcgan_model import DCMusicSpectroGAN
 from train import train
 from utils import *
+
 
 # Set random seed for reproducibility
 torch.manual_seed(42)
@@ -30,14 +27,7 @@ def main():
     netG, netD = dc_msgan.model(nz, ngf, nc, ndf)
 
     # Load the dataset
-    transform = transforms.Compose([
-        transforms.Resize(image_size),
-        transforms.Grayscale(),
-        transforms.ToTensor(),
-        transforms.Normalize((0.5,), (0.5,))
-    ])
-    dataset = ImageFolder(root=f"{os.getcwd()}\spectogram_images", transform=transform)
-    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+    dataloader = pt_load_dataset(f"{os.getcwd()}\spectogram_images", image_size, batch_size)
 
     # Train
     train(device, nz, lr, beta1, netD, netG, dataloader, num_epochs)
