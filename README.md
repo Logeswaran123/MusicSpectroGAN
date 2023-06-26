@@ -9,16 +9,6 @@ Generative Adversarial Network to generate music via spectrogram image of music.
 
 ## Dataset 💾
 
-## How to run :running_man:
-For DCGAN, execute the following command,
-```python
-python dcgan.py
-```
-For CGAN, execute the following command,
-```python
-python cgan.py
-```
-
 ### Preprocess dataset
 ```python
 python preprocess.py --input <path to input dataset directory> --output <path to save processed dataset>
@@ -27,8 +17,9 @@ python preprocess.py --input <path to input dataset directory> --output <path to
 --input - Path to input dataset directory. The directory should contain class sub-directories with music files.<br/>
 --output - Optional argument. Path to save processed dataset. Processed data is spectogram images.
 
-### [In Progress] Training
+### Training :running_man:
 ```python
+python run.py
 ```
 
 ## References :page_facing_up:
