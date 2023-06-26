@@ -25,7 +25,7 @@ def create_mel_spectogram(input_dir_path: str, output_dir_path: str = None):
     if output_dir_path is None:
         output_dir_path = os.getcwd()
 
-    output_path = output_dir_path + "/spectogram_images"
+    output_path = output_dir_path + "/spectrogram_images"
     if not os.path.exists(output_path):
         print(f"Creating processed dataset directory: {output_path}\n")
         os.makedirs(output_path)
