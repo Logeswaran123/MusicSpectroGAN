@@ -30,6 +30,36 @@ def tf_load_dataset(dataset_path, batch_size, image_shape, class_mode, shuffle, 
     return dataset_generator
 
 
+def load_dataset(dataset_path, batch_size = 32, spectrogram_height = 512, spectrogram_width = 512):
+    datagen = ImageDataGenerator(rescale=1.0/255.0)  # Normalize
+
+    data_generator = datagen.flow_from_directory(
+        dataset_path,
+        color_mode="grayscale",
+        target_size=(spectrogram_height, spectrogram_width),
+        batch_size=batch_size,
+        class_mode="categorical",
+        shuffle=True
+    )
+
+    num_classes = data_generator.num_classes
+    spectrograms = []
+    labels = []
+
+    for batch in data_generator:
+        spectrograms.extend(batch[0])
+        labels.extend(batch[1])
+
+        # Break the loop when all data is extracted
+        if len(spectrograms) >= data_generator.n:
+            break
+
+    spectrograms = np.array(spectrograms)
+    labels = np.array(labels)
+
+    return spectrograms, labels, num_classes
+
+
 def latent_vector(latent_dim, n, n_cats=10):
     # Generate points in the latent space
     latent_input = np.random.randn(latent_dim * n)
@@ -86,4 +116,22 @@ def show_fakes(generator, latent_dim, n=10):
             axs[i,j].set(title=x_fake[1][k])
             axs[i,j].axis('off')
             k=k+1
-    plt.show() 
+    plt.show()
+
+
+# Generate and save example spectrograms during training
+def generate_and_save_images(path, epoch, latent_dim, num_classes, generator):
+    random_latent_vectors = np.random.normal(size=(10, latent_dim))
+    random_labels = np.random.randint(0, num_classes, size=(10, num_classes))
+    generated_spectrograms = generator.predict([random_latent_vectors, random_labels])
+
+    _, axs = plt.subplots(2, 5, figsize=(12, 6))
+    count = 0
+    for i in range(2):
+        for j in range(5):
+            axs[i, j].imshow(generated_spectrograms[count, :, :, 0], cmap="gray")
+            axs[i, j].axis("off")
+            count += 1
+    plt.tight_layout()
+    plt.savefig(path + "\generated_spectrograms_epoch_{:04d}.png".format(epoch))
+    plt.close()

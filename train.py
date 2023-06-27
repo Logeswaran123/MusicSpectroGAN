@@ -1,14 +1,15 @@
 import os
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
-from torchvision.utils import save_image
 
 from utils import *
 
 
-def train(device, nz, lr, beta1, netD, netG, dataloader, num_epochs):
+def train_dcgan(device, nz, lr, beta1, netD, netG, dataloader, num_epochs):
+    import torch
+    import torch.nn as nn
+    import torch.optim as optim
+    import torch.nn.functional as F
+    from torchvision.utils import save_image
+
     device = torch.device(device)
 
     path = os.getcwd() + "\generated_images"
@@ -94,3 +95,69 @@ def train(device, nz, lr, beta1, netD, netG, dataloader, num_epochs):
     plt.legend()
     plt.savefig(f"{path}\loss_curves.png")
     plt.show()
+
+
+def train_cgan(spectrograms, labels, latent_dim, num_classes, epochs, batch_size, discriminator, generator):
+    from tensorflow import keras    
+
+    save_path = os.getcwd() + "\generated_images"
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+
+    # Compile the discriminator
+    discriminator.compile(loss="binary_crossentropy", optimizer=keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5), metrics=["accuracy"])
+
+    # Compile the generator
+    generator.compile(loss="binary_crossentropy", optimizer=keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5))
+
+    discriminator.summary()
+    generator.summary()
+
+    # Combine the generator and discriminator into a single model
+    discriminator.trainable = False
+    gan_input = keras.Input(shape=(latent_dim,))
+    gan_labels = keras.Input(shape=(num_classes,))
+    gan_output = discriminator([generator([gan_input, gan_labels]), gan_labels])
+    gan = keras.Model([gan_input, gan_labels], gan_output)
+    gan.compile(loss="binary_crossentropy", optimizer=keras.optimizers.Adam(learning_rate=0.0002, beta_1=0.5))
+
+    # Training loop
+    num_batches = spectrograms.shape[0] // batch_size
+    for epoch in range(epochs):
+        print("Epoch {}/{}".format(epoch + 1, epochs))
+
+        for batch in range(num_batches):
+            # Sample real spectrograms and labels
+            real_spectrograms = spectrograms[batch * batch_size : (batch + 1) * batch_size]
+            real_class_labels = labels[batch * batch_size : (batch + 1) * batch_size]
+
+            # Generate random latent vectors and labels
+            random_latent_vectors = np.random.normal(size=(batch_size, latent_dim))
+            random_class_labels = np.random.randint(0, num_classes, size=(batch_size, num_classes))
+
+            # Generate fake spectrograms using the generator
+            generated_spectrograms = generator.predict([random_latent_vectors, random_class_labels])
+
+            # Concatenate real and fake spectrograms and labels
+            combined_spectrograms = np.concatenate([real_spectrograms, generated_spectrograms])
+            combined_class_labels = np.concatenate([real_class_labels, random_class_labels])
+
+            # Create labels for real and fake spectrograms
+            real_labels = np.ones((batch_size, 1))
+            fake_labels = np.zeros((batch_size, 1))
+            combined_labels = np.concatenate([real_labels, fake_labels])
+
+            # Train the discriminator
+            discriminator_loss = discriminator.train_on_batch([combined_spectrograms, combined_class_labels], combined_labels)
+
+            # Train the generator
+            random_latent_vectors = np.random.normal(size=(batch_size, latent_dim))
+            random_labels = np.random.randint(0, num_classes, size=(batch_size, num_classes))
+            generator_loss = gan.train_on_batch([random_latent_vectors, random_labels], real_labels)
+
+            # Print the progress
+            print("Batch {}/{} | D loss: {:.4f} | G loss: {:.4f}".format(
+                batch + 1, num_batches, discriminator_loss[0], generator_loss))
+
+        # Generate and save example spectrograms
+        generate_and_save_images(save_path, epoch, latent_dim, num_classes, generator)
