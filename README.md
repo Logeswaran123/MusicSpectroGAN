@@ -18,7 +18,7 @@ python preprocess.py --input <path to input dataset directory> --output <path to
 --input - Path to input dataset directory. The directory should contain class sub-directories with music files.<br/>
 --output - Optional argument. Path to save processed dataset. Processed data is spectogram images.
 
-### Training :running_man:
+## Training :running_man:
 ```python
 python run.py --gan <model architecture>
 ```
