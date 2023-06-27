@@ -20,7 +20,7 @@ python preprocess.py --input <path to input dataset directory> --output <path to
 
 ### Training :running_man:
 ```python
-python run.py --gan <GAN model architecture>
+python run.py --gan <model architecture>
 ```
 <b>Arguments:</b><br/>
 --gan - Specify GAN model architecture. Allowed values: dcgan, cgan.<br/>
