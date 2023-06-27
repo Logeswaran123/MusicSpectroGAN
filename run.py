@@ -1,5 +1,5 @@
 import argparse
-import torch
+import os
 
 from dcgan_model import DCMusicSpectroGAN
 from cgan_model import CMusicSpectroGAN
@@ -7,14 +7,13 @@ from train import train_dcgan, train_cgan
 from utils import *
 
 # Set random seed for reproducibility
-torch.manual_seed(42)
 np.random.seed(42)
 
 
 def argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-gan', "--gan", required=True, type=str, choices=["dcgan", "cgan"],
-                                        help="GAN model architecture")
+                                        help="Specify GAN model architecture.")
     return parser
 
 
@@ -23,7 +22,6 @@ def main():
 
     if args.gan == "dcgan":
         device = "cuda"
-        dc_msgan = DCMusicSpectroGAN(device)
 
         # Hyperparameters
         batch_size = 64
@@ -36,10 +34,11 @@ def main():
         lr = 0.0002
         beta1 = 0.5
 
-        netG, netD = dc_msgan.model(nz, ngf, nc, ndf)
-
         # Load the dataset
         dataloader = pt_load_dataset(f"{os.getcwd()}\spectogram_images", image_size, batch_size)
+
+        dc_msgan = DCMusicSpectroGAN(device)
+        netG, netD = dc_msgan.model(nz, ngf, nc, ndf)
 
         # Train
         train_dcgan(device, nz, lr, beta1, netD, netG, dataloader, num_epochs)
@@ -50,6 +49,7 @@ def main():
         num_epochs = 10  # Number of training epochs
         batch_size = 32  # Batch size for training
 
+        # Load the dataset
         spectrograms, labels, num_classes = load_dataset(f"{os.getcwd()}\spectogram_images", batch_size, 64, 64)
         image_size = spectrograms[0].shape
 
@@ -58,6 +58,7 @@ def main():
         discriminator = c_msgan.discriminator(image_size, num_classes)
         generator = c_msgan.generator(latent_dim, num_classes, (image_size[0]//4, image_size[1]//4))
 
+        # Train
         train_cgan(spectrograms, labels, latent_dim, num_classes, num_epochs, batch_size, discriminator, generator)
 
 

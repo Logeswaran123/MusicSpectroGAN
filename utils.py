@@ -1,13 +1,15 @@
-import os
-from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 import numpy as np
-from torch.utils.data import DataLoader
-import torchvision.transforms as transforms
-from torchvision.datasets import ImageFolder
 
 
 def pt_load_dataset(dataset_path, image_size, batch_size):
+    import torch
+    from torch.utils.data import DataLoader
+    import torchvision.transforms as transforms
+    from torchvision.datasets import ImageFolder
+
+    torch.manual_seed(42)
+
     transform = transforms.Compose([
         transforms.Resize(image_size),
         transforms.Grayscale(),
@@ -19,6 +21,8 @@ def pt_load_dataset(dataset_path, image_size, batch_size):
 
 
 def tf_load_dataset(dataset_path, batch_size, image_shape, class_mode, shuffle, color_mode):
+    from keras.preprocessing.image import ImageDataGenerator
+
     dataset_generator = ImageDataGenerator()
     dataset_generator = dataset_generator.flow_from_directory(
                             dataset_path,
@@ -31,6 +35,8 @@ def tf_load_dataset(dataset_path, batch_size, image_shape, class_mode, shuffle, 
 
 
 def load_dataset(dataset_path, batch_size = 32, spectrogram_height = 512, spectrogram_width = 512):
+    from keras.preprocessing.image import ImageDataGenerator
+
     datagen = ImageDataGenerator(rescale=1.0/255.0)  # Normalize
 
     data_generator = datagen.flow_from_directory(
@@ -108,7 +114,7 @@ def show_fakes(generator, latent_dim, n=10):
     X_tst = (x_fake[0] + 1) / 2.0
 
     # Display fake (generated) images
-    fig, axs = plt.subplots(2, 5, sharey=False, tight_layout=True, figsize=(12,6), facecolor='white')
+    _, axs = plt.subplots(2, 5, sharey=False, tight_layout=True, figsize=(12,6), facecolor='white')
     k=0
     for i in range(0,2):
         for j in range(0,5):

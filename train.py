@@ -10,6 +10,7 @@ def train_dcgan(device, nz, lr, beta1, netD, netG, dataloader, num_epochs):
     import torch.nn.functional as F
     from torchvision.utils import save_image
 
+    torch.manual_seed(42)
     device = torch.device(device)
 
     path = os.getcwd() + "\generated_images"
@@ -94,7 +95,7 @@ def train_dcgan(device, nz, lr, beta1, netD, netG, dataloader, num_epochs):
     plt.ylabel("Loss")
     plt.legend()
     plt.savefig(f"{path}\loss_curves.png")
-    plt.show()
+    plt.close()
 
 
 def train_cgan(spectrograms, labels, latent_dim, num_classes, epochs, batch_size, discriminator, generator):
