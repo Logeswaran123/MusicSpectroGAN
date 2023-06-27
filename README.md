@@ -20,8 +20,10 @@ python preprocess.py --input <path to input dataset directory> --output <path to
 
 ### Training :running_man:
 ```python
-python run.py
+python run.py --gan <GAN model architecture>
 ```
+<b>Arguments:</b><br/>
+--gan - Specify GAN model architecture. Allowed values: dcgan, cgan.<br/>
 
 ## References :page_facing_up:
 * PokeGAN: Generating Fake Pokemon with a Generative Adversarial Network | [Article](https://blog.jovian.com/pokegan-generating-fake-pokemon-with-a-generative-adversarial-network-f540db81548d)
