@@ -1,5 +1,5 @@
-# [In-Progress] MusicSpectroGAN
-Generative Adversarial Network to generate music via spectrogram image of music.
+# [In-Progress] 🎵 MusicSpectroGAN 🎵
+Generate music via spectrogram image.
 
 ## Description :scroll:
 Generative Adversarial Network (GAN) are used to generate new data samples that resemble a given training dataset.
