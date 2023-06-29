@@ -24,6 +24,7 @@ MusicSpectroGAN uses cGAN, DCGAN architectures to train a generator model with s
 ## Dataset 💾
 
 ### Preprocess dataset
+Convert music data into spectrogram images.
 ```python
 python preprocess.py --input <path to input dataset directory> --output <path to save processed dataset>
 ```
