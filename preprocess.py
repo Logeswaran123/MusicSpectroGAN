@@ -86,13 +86,13 @@ def fma_process(fma_small_path, tracks_csv_path):
         sf.write(out_wav_filename, data=data, samplerate=sr)
 
 
-def create_mel_spectogram(input_dir_path: str, output_dir_path: str = None):
+def create_mel_spectrogram(input_dir_path: str, output_dir_path: str = None):
     """
-    Create mel spectogram for audio files.
+    Create mel spectrogram for audio files.
 
     Arguments:
     input_dir_path: Path to dataset directory with labels directories containing audio files.
-    output_dir_path: Path to save processed dataset (mel spectograms).
+    output_dir_path: Path to save processed dataset (mel spectrograms).
     """
     if output_dir_path is None:
         output_dir_path = os.getcwd()
@@ -151,7 +151,7 @@ if __name__ == "__main__":
         # Pass path to /fma directory.
         fma_process(args.input + "/fma_small/fma_small/", args.input + "/fma_metadata/tracks.csv")
         wav_samples_path = os.getcwd() + '/samples'
-        create_mel_spectogram(wav_samples_path, args.output)
+        create_mel_spectrogram(wav_samples_path, args.output)
         shutil.rmtree(wav_samples_path)
     elif args.dataset == "gtzan":
         # GTZAN Dataset Directory structure
@@ -163,4 +163,4 @@ if __name__ == "__main__":
         #    |- ...
         #
         # Pass path to /GTZAN directory.
-        create_mel_spectogram(args.input , args.output)
+        create_mel_spectrogram(args.input , args.output)
