@@ -1,5 +1,4 @@
 import argparse
-import os
 
 from dcgan_model import DCMusicSpectroGAN
 from cgan_model import CMusicSpectroGAN
@@ -14,6 +13,8 @@ def argparser():
     parser = argparse.ArgumentParser()
     parser.add_argument('-gan', "--gan", required=True, type=str, choices=["dcgan", "cgan"],
                                         help="Specify GAN model architecture.")
+    parser.add_argument('-d', "--dataset", required=True, type=str,
+                                        help="Path to spectrogram images dataset.")
     return parser
 
 
@@ -35,7 +36,7 @@ def main():
         beta1 = 0.5
 
         # Load the dataset
-        dataloader = pt_load_dataset(f"{os.getcwd()}\spectogram_images", image_size, batch_size)
+        dataloader = pt_load_dataset(args.dataset, image_size, batch_size)
 
         dc_msgan = DCMusicSpectroGAN(device)
         netG, netD = dc_msgan.model(nz, ngf, nc, ndf)
@@ -50,7 +51,7 @@ def main():
         batch_size = 32  # Batch size for training
 
         # Load the dataset
-        spectrograms, labels, num_classes = load_dataset(f"{os.getcwd()}\spectogram_images", batch_size, 64, 64)
+        spectrograms, labels, num_classes = load_dataset(args.dataset, batch_size, 64, 64)
         image_size = spectrograms[0].shape
 
         c_msgan = CMusicSpectroGAN()
