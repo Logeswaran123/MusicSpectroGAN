@@ -26,18 +26,20 @@ MusicSpectroGAN uses cGAN, DCGAN architectures to train a generator model with s
 ### Preprocess dataset
 Convert music data into spectrogram images.
 ```python
-python preprocess.py --input <path to input dataset directory> --output <path to save processed dataset>
+python preprocess.py --dataset <gtzan or fma> --input <path to input dataset directory> --output <path to save processed dataset>
 ```
 <b>Arguments:</b><br/>
+--dataset - Choose the dataset to pre-process for training. Choices = ["gtzan", "fma"].<br/>
 --input - Path to input dataset directory. The directory should contain class sub-directories with music files.<br/>
 --output - Optional argument. Path to save processed dataset. Processed data is spectogram images.
 
 ## Training :running_man:
 ```python
-python run.py --gan <model architecture>
+python run.py --gan <model architecture> --dataset <path to spectrogram images dataset>
 ```
 <b>Arguments:</b><br/>
 --gan - Specify GAN model architecture. Allowed values: dcgan, cgan.<br/>
+--dataset - Path to spectrogram images dataset. Obtained from the pre-processing step.<br/>
 
 ## References :page_facing_up:
 * PokeGAN: Generating Fake Pokemon with a Generative Adversarial Network | [Article](https://blog.jovian.com/pokegan-generating-fake-pokemon-with-a-generative-adversarial-network-f540db81548d)
