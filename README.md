@@ -22,6 +22,7 @@ MusicSpectroGAN uses cGAN, DCGAN architectures to train a generator model with s
 ## Code Requirements :mage_woman:
 
 ## Dataset 💾
+The project is tested with FMA and GTZAN datasets.
 
 ### Preprocess dataset
 Convert music data into spectrogram images.
