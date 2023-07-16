@@ -1,6 +1,29 @@
 # [In-Progress] 🎵 MusicSpectroGAN 🎵
 Generate music via spectrogram image.
 
+### FMA Dataset Directory structure
+```
+    fma
+     |
+     |- fma_small
+     |      |- fma_small
+     |           |- 000
+     |           |- 001
+     |           |- ...
+     |- fma_metadata
+     |      |- tracks.csv
+```
+
+### GTZAN Dataset Directory structure
+```
+    GTZAN
+     |
+     |- blues
+     |- classical
+     |- country
+     |- ...
+```
+
 ## Description :scroll:
 Generative Adversarial Network (GAN) are used to generate new data samples that resemble a given training dataset.
 
