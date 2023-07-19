@@ -20,6 +20,11 @@ MusicSpectroGAN uses cGAN, DCGAN architectures to train a generator model with s
 * If using GPU for training, atleast 4GB of VRAM is required for 64x64x1 image size and 64 batch size.
 
 ## Code Requirements :mage_woman:
+Use Python 3.8.13. Setup conda environment, git clone repo and run the below command,
+
+```python
+python setup.py
+```
 
 ## Dataset 💾
 The project is tested with Free Music Archive (FMA) and GTZAN datasets.
