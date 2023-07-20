@@ -1,0 +1,7 @@
+argparse==1.1
+librosa==0.10.0.post2
+matplotlib==3.5.2
+numpy==1.22.4
+soundfile==0.12.1
+tensorflow==2.8.0
+keras==2.8.0
