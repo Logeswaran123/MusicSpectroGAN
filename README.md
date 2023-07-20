@@ -1,4 +1,4 @@
-# [In-Progress] 🎵 MusicSpectroGAN 🎵
+# 🎵 MusicSpectroGAN 🎵
 Generate music via spectrogram image.
 
 ## Description :scroll:
